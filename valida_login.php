@@ -1,5 +1,9 @@
 <?php
 
+session_start();
+
+
+
 //VARIAVEL QUE VERIFICA SE A AUTENTICAÇÃO FOI REALIZADA
 $usuario_autenticado = false;
 
@@ -17,12 +21,7 @@ echo '</pre>';
 */
 
 foreach($usuarios_app as $user){
-    /*
-    echo 'Usuario app: ' . $user['email'] . '/' . $user['senha'];
-    echo '<br />';
-    echo 'Usuario form: ' . $_POST['email'] . '/' . $_POST['senha'];
-    echo '<hr />';
-    */
+
     if($user['email'] == $_POST['email'] && $user['senha'] == $_POST['senha']){
         $usuario_autenticado = true;
     }
@@ -30,7 +29,9 @@ foreach($usuarios_app as $user){
 
     if($usuario_autenticado){
         echo 'Usuário autenticado.';
+        $_SESSION['autenticado'] = 'SIM';
     }else{
+        $_SESSION['autenticado'] = 'NAO';
         header('Location: index.php?login=erro');
     }
 
