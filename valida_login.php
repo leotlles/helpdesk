@@ -1,19 +1,17 @@
 <?php
 
-session_start();
-$_SESSION['x'] = 'Oi, eu sou um valor de sessão!';
-print_r($_SESSION);
-echo '<hr/>';
-print_r($_SESSION['y']);
-
+require_once "validador_acesso.php";
 
 //VARIAVEL QUE VERIFICA SE A AUTENTICAÇÃO FOI REALIZADA
 $usuario_autenticado = false;
+$usuario_id = null;
 
 //USUARIOS DO SISTEMA
 $usuarios_app = array(
-    array('email' => 'adm@teste.com.br', 'senha' => '123456'),
-    array('email' => 'user@teste.com.br', 'senha' => 'abcd')
+    array('id'=> 1, 'email' => 'adm@teste.com.br', 'senha' => '1234'),
+    array('id'=> 2, 'email' => 'user@teste.com.br', 'senha' => '1234'),
+    array('id'=> 3, 'email' => 'jose@teste.com.br', 'senha' => '1234'),
+    array('id'=> 4, 'email' => 'maria@teste.com.br', 'senha' => '1234')
 );
 /*
 
@@ -24,22 +22,17 @@ echo '</pre>';
 */
 
 foreach($usuarios_app as $user){
-    /*
-    echo 'Usuario app: ' . $user['email'] . '/' . $user['senha'];
-    echo '<br />';
-    echo 'Usuario form: ' . $_POST['email'] . '/' . $_POST['senha'];
-    echo '<hr />';
-    */
+
     if($user['email'] == $_POST['email'] && $user['senha'] == $_POST['senha']){
         $usuario_autenticado = true;
+        $usuario_id = ($user['id']);
     }
 }
 
     if($usuario_autenticado){
         echo 'Usuário autenticado.';
         $_SESSION['autenticado'] = 'SIM';
-        $_SESSION['x'] = 'um valor';
-        $_SESSION['y'] = 'outro valor';
+        $_SESSION['id'] = $usuario_id;
         header('Location: home.php');
     }else{  
         $_SESSION['autenticado'] = 'NÃO';
