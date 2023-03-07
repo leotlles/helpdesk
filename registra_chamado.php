@@ -1,12 +1,15 @@
 <?php
 
+    session_start();
+
+    // trabalhando na montagem do texto
     $titulo = str_replace('#', '-', $_POST['título']);
     $categoria = str_replace('#', '-', $_POST['categoria']);
     $descricao = str_replace('#', '-', $_POST['descrição']);
 
-    $texto = $titulo . '#' . $categoria . '#' . $descricao . PHP_EOL;
+    $texto = $_SESSION['id'] . '#' . $titulo . '#' . $categoria . '#' . $descricao . PHP_EOL;
 
-    // Abrindo o arquivo
+    // abrindo o arquivo
     $arquivo = fopen('arquivo.hd', 'a');
 
     // escrevendo no arquivo
