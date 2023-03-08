@@ -6,15 +6,30 @@
   $chamados = array();
 
   //abrir o arquivo.hd
-  $arquivo = fopen('arquivo.hd', 'r');
+  $arquivo = fopen('../../app_help_desk/arquivo.hd', 'r');
 
   //enquanto houver registros (linhas) a serem recuperados
   while(!feof($arquivo)) { // testa pelo fim de um arquivo
     //linhas
     $registro = fgets($arquivo);
 
-    $chamados[] = $registro;
-  }
+    $registro_detalhes = explode('#', $registro);
+
+    if($_SESSION['perfil_id'] == 2) {
+
+      if($_SESSION['id'] != $registro_detalhes[0]) {
+        continue; 
+
+      } else {
+        $chamados[] = $registro;
+      }
+
+    } else {
+      $chamados[] = $registro; 
+    }
+}
+  
+
   //fechar o arquivo aberto
   fclose($arquivo);
 
@@ -40,7 +55,7 @@
   <body>
 
     <nav class="navbar navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="/help-desk/home.php">
         <img src="logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
         App Help Desk
       </a>
@@ -68,12 +83,6 @@
 
                 $chamado_dados = explode('#', $chamado);
 
-                  if($_SESSION['perfil_id'] == 2){
-                    // só vamos exibir o chamado, se foi criado pelo usuario
-                    if($_SESSION['id'] != $chamado_dados[0]){
-                      continue;
-                    }
-                  }
 
                   if(count($chamado_dados) < 3) {
                     continue;
